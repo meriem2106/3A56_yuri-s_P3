@@ -1,0 +1,220 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Hotel{% endblock %}
+
+{% block body %}
+    <h1>Hotel</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ hotel.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ hotel.nom }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ hotel.email }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ hotel.telephone }}</td>
+            </tr>
+            <tr>
+                <th>NbEtoiles</th>
+                <td>{{ hotel.nbEtoiles }}</td>
+            </tr>
+            <tr>
+                <th>Localisation</th>
+                <td>{{ hotel.localisation }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ hotel.ville }}</td>
+            </tr>
+            <tr>
+                <th>Disponibilité</th>
+                <td>{{ hotel.disponibilite }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ hotel.description }}</td>
+            </tr>
+            <tr>
+                <th>Prix</th>
+                <td>{{ hotel.prix }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_hotel_index') }}">back to list</a>
+
+    <a href="{{ path('app_hotel_edit', {'id': hotel.id}) }}">edit</a>
+
+    {{ include('hotel/_delete_form.html.twig') }}
+{% endblock %} #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ hotel.nom }}{% endblock %}
+
+{% block body %}
+    <style>
+        /* Nouveaux styles CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            width: 60%;
+            margin: auto;
+            overflow: hidden;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .left-container {
+            float: left;
+            width: 60%;
+            margin-right: 20px;
+            text-align: center;
+        }
+
+        .right-container {
+            float: right;
+            margin-right: 130px;
+            width: 20%;
+ }
+
+        .detail {
+            margin-bottom: 10px;
+        }
+
+        .detail label {
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 200px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-content {
+            border-radius: 8px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+ background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    
+
+    <div class="container">
+        <div class="left-container image-container">
+        <h1 >{{ hotel.nom }}</h1>
+            <img src="{{ asset('pictures/' ~ hotel.image) }}" alt="{{ hotel.nom }}" class="modal-image">
+        </div>
+        
+        <div class="right-container">
+            
+
+<div class="detail">
+    <label>Email:</label>
+    <div>{{ hotel.email }}</div>
+</div>
+
+<div class="detail">
+    <label>Téléphone:</label>
+    <div>{{ hotel.telephone }}</div>
+</div>
+
+<div class="detail">
+    <label>Nombre d'étoiles:</label>
+    <div>{{ hotel.nbEtoiles }}</div>
+</div>
+
+<div class="detail">
+    <label>Localisation:</label>
+    <div>{{ hotel.localisation }}</div>
+</div>
+
+<div class="detail">
+    <label>Ville:</label>
+    <div>{{ hotel.ville }}</div>
+</div>
+
+<div class="detail">
+    <label>Disponibilité:</label>
+    <div>{{ hotel.disponibilite }}</div>
+</div>
+
+<div class="detail">
+    <label>Description:</label>
+    <div>{{ hotel.description }}</div>
+</div>
+
+<div class="detail">
+    <label>Prix:</label>
+    <div>{{ hotel.prix }}</div>
+</div>
+
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_hotel_index') }}" class="btn">Retour à la liste</a>
+    </div>
+
+    <!-- Modal for displaying enlarged image -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="#" id="modalImage" style="max-width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal-image').click(function() {
+                var src = $(this).attr('src');
+                $('#modalImage').attr('src', src);
+                $('#imageModal').modal('show');
+            });
+        });
+    </script>
+{% endblock %}

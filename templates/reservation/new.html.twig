@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Reservation{% endblock %}
+
+{% block body %}
+    <h1 class="row justify-content-center">Create new Reservation</h1>
+
+    <div class="card-body">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                {{ form_start(form, {'attr': {'class': 'form'}}) }}
+
+                <div class="form-group">
+                    {{ form_label(form.nbAdultes, 'Nombre d\'adultes') }}
+                    {{ form_widget(form.nbAdultes, {'attr': {'class': 'form-control', 'style': form_errors(form.nbAdultes) ? 'border-color: #ad1328;' : '', 'placeholder': 'Nombre d\'adultes'}}) }}
+                    <div class="text" style="color: #ad1328;" role="alert">{{ form_errors(form.nbAdultes) }}</div>
+                </div>
+
+                <div class="form-group">
+                    {{ form_label(form.nbEnfants, 'Nombre d\'enfants') }}
+                    {{ form_widget(form.nbEnfants, {'attr': {'class': 'form-control', 'style': form_errors(form.nbEnfants) ? 'border-color: #ad1328;' : '', 'placeholder': 'Nombre d\'enfants'}}) }}
+                    <div class="text" style="color: #ad1328;" role="alert">{{ form_errors(form.nbEnfants) }}</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        {{ form_label(form.datearrivee, 'Date d\'arrivée') }}
+                        {{ form_widget(form.datearrivee, {'attr': {'class': 'form-control', 'style': form_errors(form.datearrivee) ? 'border-color: #ad1328;' : '', 'placeholder': 'Date d\'arrivée'}}) }}
+                        <div class="text" style="color: #ad1328;" role="alert">{{ form_errors(form.datearrivee) }}</div>
+                    </div>
+                    </div>
+
+                    
+                    <div class="col-md-6">
+                    <div class="form-group" >
+                        {{ form_label(form.datedepart, 'Date de départ') }}
+                        {{ form_widget(form.datedepart, {'attr': {'class': 'form-control', 'style': form_errors(form.datedepart) ? 'border-color: #ad1328;' : '', 'placeholder': 'Date de départ'}}) }}
+                        <div class="text" style="color: #ad1328;" role="alert">{{ form_errors(form.datedepart) }}</div>
+                    </div>
+                </div>
+                
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        {{ form_label(form.arrangement, 'Arrangement') }}
+                        {{ form_widget(form.arrangement, {'attr': {'class': 'form-control', 'style': form_errors(form.arrangement) ? 'border-color: #ad1328;' : ''}}) }}
+                        <div class="text" style="color: #ad1328;" role="alert">{{ form_errors(form.arrangement) }}</div>
+                    </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                        {{ form_label(form.repartition, 'Répartition') }}
+                        {{ form_widget(form.repartition, {'attr': {'class': 'form-control', 'style': form_errors(form.repartition) ? 'border-color: #ad1328;' : ''}}) }}
+                        <div class="text" style="color: #ad1328;" role="alert">{{ form_errors(form.repartition) }}</div>
+                    </div>
+                </div>
+</div>
+                <div class="d-flex flex-row-reverse align-bottom" >
+    <button type="button" class="btn btn-primary btn-sm" ><i class="bi bi-download"></i></button>
+</div>
+
+                {{ form_end(form) }}
+            
+        </div>
+    </div>
+
+    <a href="{{ path('app_reservation_index') }}">Back to list</a>
+{% endblock %}

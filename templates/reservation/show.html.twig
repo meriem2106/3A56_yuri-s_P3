@@ -1,0 +1,177 @@
+{# {% extends 'base.html.twig' %}
+
+{% block title %}Reservation{% endblock %}
+
+{% block body %}
+    <h1>Reservation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation.id }}</td>
+            </tr>
+            <tr>
+                <th>NbAdultes</th>
+                <td>{{ reservation.nbAdultes }}</td>
+            </tr>
+            <tr>
+                <th>NbEnfants</th>
+                <td>{{ reservation.nbEnfants }}</td>
+            </tr>
+            <tr>
+                <th>Datearrivee</th>
+                <td>{{ reservation.datearrivee ? reservation.datearrivee|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datedepart</th>
+                <td>{{ reservation.datedepart ? reservation.datedepart|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Arrangement</th>
+                <td>{{ reservation.arrangement }}</td>
+            </tr>
+            <tr>
+                <th>Repartition</th>
+                <td>{{ reservation.repartition }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_index') }}">back to list</a>
+
+    <a href="{{ path('app_reservation_edit', {'id': reservation.id}) }}">edit</a>
+
+    {{ include('reservation/_delete_form.html.twig') }}
+{% endblock %} #}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ reservation.id }}{% endblock %}
+
+{% block body %}
+    <style>
+        /* Nouveaux styles CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            width: 50%;
+            margin: auto;
+            overflow: hidden;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+
+
+        .detail {
+            margin-bottom: 10px;
+        }
+
+        .detail label {
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 200px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-content {
+            border-radius: 8px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <div class="container">
+            <div class="detail">
+                <label>Nombre d'Adultes:</label>
+                <div>{{ reservation.nbAdultes }}</div>
+            </div>
+
+            <div class="detail">
+                <label>Nombre d'Enfants:</label>
+                <div>{{ reservation.nbEnfants }}</div>
+            </div>
+
+            <div class="detail">
+                <label>Date d'arrivée:</label>
+                <div><div>{{ reservation.datearrivee|date('Y-m-d') }}</div></div>
+            </div>
+
+            <div class="detail">
+                <label>Date de départ:</label>
+                <div><div>{{ reservation.datedepart|date('Y-m-d') }}</div></div>
+            </div>
+
+            <div class="detail">
+                <label>Arrangement:</label>
+                <div>{{ reservation.arrangement }}</div>
+            </div>
+
+            <div class="detail">
+                <label>Répartition:</label>
+                <div>{{ reservation.repartition }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_reservation_index') }}" class="btn">Retour à la liste</a>
+    </div>
+
+    <!-- Modal for displaying enlarged image -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="#" id="modalImage" style="max-width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal-image').click(function() {
+                var src = $(this).attr('src');
+                $('#modalImage').attr('src', src);
+                $('#imageModal').modal('show');
+            });
+        });
+    </script>
+{% endblock %}
