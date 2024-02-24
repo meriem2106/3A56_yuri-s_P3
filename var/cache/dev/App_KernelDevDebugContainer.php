@@ -16,6 +16,6 @@ if (!\class_exists(App_KernelDevDebugContainer::class, false)) {
 
 return new \ContainerSgpPYNU\App_KernelDevDebugContainer([
     'container.build_hash' => 'SgpPYNU',
-    'container.build_id' => 'ace8f775',
-    'container.build_time' => 1708813704,
+    'container.build_id' => 'a5d495ff',
+    'container.build_time' => 1708815690,
 ], __DIR__.\DIRECTORY_SEPARATOR.'ContainerSgpPYNU');
