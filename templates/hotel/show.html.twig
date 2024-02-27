@@ -1,220 +1,133 @@
-{# {% extends 'base.html.twig' %}
-
-{% block title %}Hotel{% endblock %}
-
-{% block body %}
-    <h1>Hotel</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ hotel.id }}</td>
-            </tr>
-            <tr>
-                <th>Nom</th>
-                <td>{{ hotel.nom }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ hotel.email }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ hotel.telephone }}</td>
-            </tr>
-            <tr>
-                <th>NbEtoiles</th>
-                <td>{{ hotel.nbEtoiles }}</td>
-            </tr>
-            <tr>
-                <th>Localisation</th>
-                <td>{{ hotel.localisation }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ hotel.ville }}</td>
-            </tr>
-            <tr>
-                <th>Disponibilité</th>
-                <td>{{ hotel.disponibilite }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ hotel.description }}</td>
-            </tr>
-            <tr>
-                <th>Prix</th>
-                <td>{{ hotel.prix }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_hotel_index') }}">back to list</a>
-
-    <a href="{{ path('app_hotel_edit', {'id': hotel.id}) }}">edit</a>
-
-    {{ include('hotel/_delete_form.html.twig') }}
-{% endblock %} #}
-{% extends 'base.html.twig' %}
+{% extends 'FrontOffice/baseF.html.twig' %}
 
 {% block title %}{{ hotel.nom }}{% endblock %}
 
 {% block body %}
-    <style>
-        /* Nouveaux styles CSS */
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-        }
+    <header>
+        <div>
+            <nav id="navbar" class="container-fluid navbar navbar-expand-lg navbar-dark bg-dark" style="height: 60px;">
+                <div class="container">
+                    <!-- Logo -->
+                    <div class="logo navbar-brand w-25 mr-auto" style="margin-top: 10px;">
+                        <h1 class="text-light"><a href="index.html"><span>TuniWorld</span></a></h1>
+                    </div>
+                    <!-- Icône -->
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
 
-        .container {
-            width: 60%;
-            margin: auto;
-            overflow: hidden;
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            margin-top: 20px;
-        }
+                    <!-- Liens de la navbar -->
+                    <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
+                        <ul class="navbar-nav gap-2">
+                            <li class="nav-item"><a class="nav-link" href="#hero">Acceuil</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#about">Nos Hebergements</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#services">Nos Evenements</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#portfolio">Nos Produits</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#team">Contact</a></li>
+                            <li class="nav-item"><a class="nav-link" href="#team1">A propos </a></li>
+                        </ul>
+                    </div>
 
-        .left-container {
-            float: left;
-            width: 60%;
-            margin-right: 20px;
-            text-align: center;
-        }
+                    <!-- Dropdown -->
+                    <div class="collapse navbar-collapse mr-3 justify-content-end" id="navbarNavDropdown">
+                        <ul class="navbar-nav">
+                            <li class="nav-item my-2 my-sm-0 dropdown">
+                                <li class="dropdown  "><a href="#"><span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+                                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+                                    <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+                                    </svg></span> <i class="bi bi-chevron-down"></i></a>
+                                <ul>
+                                    <li>
+                                            <a href="#">S'inscrire</a>
+                                            <a href="#">Se connecter</a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav><!-- .navbar -->
+        </div>
+    </header><!-- End Header -->
 
-        .right-container {
-            float: right;
-            margin-right: 130px;
-            width: 20%;
- }
+    {% block content %}
 
-        .detail {
-            margin-bottom: 10px;
-        }
-
-        .detail label {
-            font-weight: bold;
-            display: inline-block;
-            width: 100px;
-        }
-
-        .image-container img {
-            max-width: 100%;
-            max-height: 200px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .image-container img:hover {
-            transform: scale(1.05);
-        }
-
-        .modal-body {
-            text-align: center;
-        }
-
-        .modal-content {
-            border-radius: 8px;
-        }
-
-        .btn {
-            padding: 10px 20px;
- background-color: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
-
-    
-
-    <div class="container">
-        <div class="left-container image-container">
-        <h1 >{{ hotel.nom }}</h1>
-            <img src="{{ asset('pictures/' ~ hotel.image) }}" alt="{{ hotel.nom }}" class="modal-image">
+       
+     
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-6 text-center" style="float: left;">
+            <h1  style=" font-size: 30px; margin-bottom: 20px;">{{ hotel.nom | upper  }}</h1>
+            <img src="{{ asset('pictures/' ~ hotel.image) }}" alt="{{ hotel.nom }}" class="modal-image" style="max-width: 100%; max-height: 320px; border-radius: 8px; transition: transform 0.3s ease-in-out;">
         </div>
         
-        <div class="right-container">
-            
+        <div class="col-md-6 container d-flex flex-column gap-2" >
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Email:</label>
+                <div>{{ hotel.email }}</div>
+            </div>
 
-<div class="detail">
-    <label>Email:</label>
-    <div>{{ hotel.email }}</div>
-</div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Téléphone:</label>
+                <div>{{ hotel.telephone }}</div>
+            </div>
 
-<div class="detail">
-    <label>Téléphone:</label>
-    <div>{{ hotel.telephone }}</div>
-</div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Nombre d'étoiles:</label>
+                <div>{{ hotel.nbEtoiles }}</div>
+            </div>
 
-<div class="detail">
-    <label>Nombre d'étoiles:</label>
-    <div>{{ hotel.nbEtoiles }}</div>
-</div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Localisation:</label>
+                <div>{{ hotel.localisation }}</div>
+            </div>
 
-<div class="detail">
-    <label>Localisation:</label>
-    <div>{{ hotel.localisation }}</div>
-</div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Ville:</label>
+                <div>{{ hotel.ville }}</div>
+            </div>
 
-<div class="detail">
-    <label>Ville:</label>
-    <div>{{ hotel.ville }}</div>
-</div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Disponibilité:</label>
+                <div>{{ hotel.disponibilite }}</div>
+            </div>
 
-<div class="detail">
-    <label>Disponibilité:</label>
-    <div>{{ hotel.disponibilite }}</div>
-</div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Description:</label>
+                <div>{{ hotel.description }}</div>
+            </div>
 
-<div class="detail">
-    <label>Description:</label>
-    <div>{{ hotel.description }}</div>
-</div>
-
-<div class="detail">
-    <label>Prix:</label>
-    <div>{{ hotel.prix }}</div>
-</div>
-
-        </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <a href="{{ path('app_hotel_index') }}" class="btn">Retour à la liste</a>
-    </div>
-
-    <!-- Modal for displaying enlarged image -->
-    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <img src="#" id="modalImage" style="max-width: 100%;">
-                </div>
+            <div class="detail" style="margin-bottom: 10px;">
+                <label style="font-weight: bold;">Prix:</label>
+                <div>{{ hotel.prix }}</div>
             </div>
         </div>
     </div>
+</div>
+
+
+
+        <!-- Modal for displaying enlarged image -->
+        <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-body">
+            <img src="#" id="modalImage" style="max-width: 100%;">
+        </div>
+    </div>
+</div>
+</div>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('.modal-image').click(function() {
-                var src = $(this).attr('src');
-                $('#modalImage').attr('src', src);
-                $('#imageModal').modal('show');
-            });
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('.modal-image').click(function() {
+            var src = $(this).attr('src');
+            $('#modalImage').attr('src', src);
+            $('#imageModal').modal('show');
         });
-    </script>
+    });
+</script>
+{% endblock %}
 {% endblock %}

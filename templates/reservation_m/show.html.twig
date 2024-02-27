@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<title>ReservationM</title>
+
+{% block body %}
+    <h1>ReservationM</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reservation_m.id }}</td>
+            </tr>
+            <tr>
+                <th>NbAdultes</th>
+                <td>{{ reservation_m.nbAdultes }}</td>
+            </tr>
+            <tr>
+                <th>NbEnfants</th>
+                <td>{{ reservation_m.nbEnfants }}</td>
+            </tr>
+            <tr>
+                <th>Arrangement</th>
+                <td>{{ reservation_m.arrangement }}</td>
+            </tr>
+            <tr>
+                <th>Repartition</th>
+                <td>{{ reservation_m.repartition }}</td>
+            </tr>
+            <tr>
+                <th>Datearrivee</th>
+                <td>{{ reservation_m.datearrivee ? reservation_m.datearrivee|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Datedepart</th>
+                <td>{{ reservation_m.datedepart ? reservation_m.datedepart|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_reservation_m_index') }}">back to list</a>
+
+    <a href="{{ path('app_reservation_m_edit', {'id': reservation_m.id}) }}">edit</a>
+
+    {{ include('reservation_m/_delete_form.html.twig') }}
+{% endblock %}

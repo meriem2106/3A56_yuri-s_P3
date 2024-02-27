@@ -20,7 +20,7 @@ class HotelController extends AbstractController
     public function indexa(HotelRepository $hotelRepository, MaisonRepository $maisonRepository): Response
     {
         return $this->render('hotel/index1.html.twig', [
-            'controller_name' => 'FirstController',
+            'controller_name' => 'HotelController',
             'hotels' => $hotelRepository->findAll(),
             'maisons' => $maisonRepository->findAll(),
         ]);
@@ -72,10 +72,10 @@ class HotelController extends AbstractController
    
            $this->addFlash('success', 'L hotel a été ajouté avec succès.');
    
-           return $this->redirectToRoute('app_hotel_index', [], Response::HTTP_SEE_OTHER);
+           return $this->redirectToRoute('app_hotel_show', ['id' => $hotel->getId()]);
        }
 
-        return $this->renderForm('hotel/new.html.twig', [
+        return $this->renderForm('FrontOffice/hotel/new.html.twig', [
             'hotel' => $hotel,
             'form' => $form,
         ]);

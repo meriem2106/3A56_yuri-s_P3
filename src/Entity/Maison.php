@@ -57,12 +57,14 @@ class Maison
     #[Assert\NotBlank(message:"Le prix est obligatoire")]
     private ?string $prix = null;
 
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'maison')]
-    private Collection $reservations;
+
+    #[ORM\OneToMany(targetEntity: ReservationM::class, mappedBy: 'maison')]
+    private Collection $reservationMs;
 
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
+        
+        $this->reservationMs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -190,30 +192,32 @@ class Maison
         return $this;
     }
 
+    
+
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, ReservationM>
      */
-    public function getReservations(): Collection
+    public function getReservationMs(): Collection
     {
-        return $this->reservations;
+        return $this->reservationMs;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function addReservationM(ReservationM $reservationM): static
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setMaison($this);
+        if (!$this->reservationMs->contains($reservationM)) {
+            $this->reservationMs->add($reservationM);
+            $reservationM->setMaison($this);
         }
 
         return $this;
     }
 
-    public function removeReservation(Reservation $reservation): static
+    public function removeReservationM(ReservationM $reservationM): static
     {
-        if ($this->reservations->removeElement($reservation)) {
+        if ($this->reservationMs->removeElement($reservationM)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getMaison() === $this) {
-                $reservation->setMaison(null);
+            if ($reservationM->getMaison() === $this) {
+                $reservationM->setMaison(null);
             }
         }
 

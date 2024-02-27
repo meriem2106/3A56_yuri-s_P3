@@ -2,53 +2,12 @@
 
 {% block body %}
  
-<header id="header" class="fixed-top header-transparent">
-    <div class="container d-flex align-items-center justify-content-between position-relative">
-
-      <div class="logo">
-        <h1 class="text-light"><a href="index.html"><span>TuniWorld</span></a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        
-      </div>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="#hero">Acceuil</a></li>
-          <li><a class="nav-link scrollto" href="#about">Nos Hebergements</a></li>
-          <li><a class="nav-link scrollto" href="#services">Nos Evenements</a></li>
-          <li><a class="nav-link scrollto" href="#portfolio">Nos Produits</a></li>
-          <li><a class="nav-link scrollto" href="#team">Contact</a></li>
-         <li><a class="nav-link scrollto" href="{{ path('test_page') }}"><span>A propos</span></a></li>
-          <li class="dropdown megamenu "><a href="#"><span><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
-  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
-  <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
-</svg></span> <i class="bi bi-chevron-down"></i></a>
-            <ul>
-              <li>
-                <strong>Column 1</strong>
-                <a href="#">Column 1 link 1</a>
-                <a href="#">Column 1 link 2</a>
-                <a href="#">Column 1 link 3</a>
-              </li>
-              <li>
-                <strong>Column 2</strong>
-                <a href="#">Column 2 link 1</a>
-                <a href="#">Column 2 link 2</a>
-                <a href="#">Column 3 link 3</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
+{% include 'FrontOffice/nav.html.twig' %}
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
     <div class="hero-container" data-aos="fade-up">
-      <h1>Welcome to Paradise</h1>
+      <h1>Bienvenue sur TuniWorld</h1>
       <h2>SEE THE WORLD THROUGH MY EYE</h2>
       <a href="#about" class="btn-get-started scrollto"><i class="bx bx-chevrons-down"></i></a>
     </div>
@@ -205,7 +164,7 @@
     </section><!-- End Cta Section -->
 
      <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio">
+    <section id="about" class="about">
     <div class="container">
 
         <div class="section-title" data-aos="fade-in" data-aos-delay="100">

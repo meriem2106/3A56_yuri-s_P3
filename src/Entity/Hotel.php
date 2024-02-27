@@ -56,12 +56,13 @@ class Hotel
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[ORM\OneToMany(targetEntity: Reservation::class, mappedBy: 'hotel')]
-    private Collection $reservations;
+    #[ORM\OneToMany(targetEntity: ReservationH::class, mappedBy: 'hotel')]
+    private Collection $reservationHs;
 
     public function __construct()
     {
-        $this->reservations = new ArrayCollection();
+     
+        $this->reservationHs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -189,30 +190,32 @@ class Hotel
         return $this;
     }
 
+    
+
     /**
-     * @return Collection<int, Reservation>
+     * @return Collection<int, ReservationH>
      */
-    public function getReservations(): Collection
+    public function getReservationHs(): Collection
     {
-        return $this->reservations;
+        return $this->reservationHs;
     }
 
-    public function addReservation(Reservation $reservation): static
+    public function addReservationH(ReservationH $reservationH): static
     {
-        if (!$this->reservations->contains($reservation)) {
-            $this->reservations->add($reservation);
-            $reservation->setHotel($this);
+        if (!$this->reservationHs->contains($reservationH)) {
+            $this->reservationHs->add($reservationH);
+            $reservationH->setHotel($this);
         }
 
         return $this;
     }
 
-    public function removeReservation(Reservation $reservation): static
+    public function removeReservationH(ReservationH $reservationH): static
     {
-        if ($this->reservations->removeElement($reservation)) {
+        if ($this->reservationHs->removeElement($reservationH)) {
             // set the owning side to null (unless already changed)
-            if ($reservation->getHotel() === $this) {
-                $reservation->setHotel(null);
+            if ($reservationH->getHotel() === $this) {
+                $reservationH->setHotel(null);
             }
         }
 
