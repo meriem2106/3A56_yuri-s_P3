@@ -1,0 +1,140 @@
+{% extends 'BackOffice/baseB.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block body %}
+    <style>
+        /* Nouveaux styles CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .left-container {
+            float: left;
+            width: 40%;
+            margin-right: 20px;
+            text-align: center;
+        }
+
+        .right-container {
+            float: right;
+            width: 50%;
+        }
+
+        .detail {
+            margin-bottom: 10px;
+        }
+
+        .detail label {
+            font-weight: bold;
+            display: inline-block;
+            width: 100px;
+        }
+
+        .image-container img {
+            max-width: 100%;
+            max-height: 200px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .image-container img:hover {
+            transform: scale(1.05);
+        }
+
+        .modal-body {
+            text-align: center;
+        }
+
+        .modal-content {
+            border-radius: 8px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <h1 style="text-align: center;">Produit</h1>
+
+    <div class="container">
+        <div class="left-container image-container">
+            <img src="{{ asset('pictures/' ~ produit.image) }}" alt="{{ produit.nom }}" class="modal-image">
+        </div>
+        
+        <div class="right-container">
+            <div class="detail">
+                <label>Nom:</label>
+                <div>{{ produit.nom }}</div>
+            </div>
+            <div class="detail">
+                <label>Description:</label>
+                <div>{{ produit.description }}</div>
+            </div>
+            <div class="detail">
+                <label>Origine:</label>
+                <div>{{ produit.origine }}</div>
+            </div>
+            <div class="detail">
+                <label>Categ:</label>
+                <div>{{ produit.categ }}</div>
+            </div>
+            <div class="detail">
+                <label>Matiere:</label>
+                <div>{{ produit.matiere }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{{ path('app_produit_index') }}" class="btn">Retour à la liste</a>
+        
+    </div>
+
+    <!-- Modal for displaying enlarged image -->
+    <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <img src="#" id="modalImage" style="max-width: 100%;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal-image').click(function() {
+                var src = $(this).attr('src');
+                $('#modalImage').attr('src', src);
+                $('#imageModal').modal('show');
+            });
+        });
+    </script>
+{% endblock %}

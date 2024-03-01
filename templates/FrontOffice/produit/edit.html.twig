@@ -1,0 +1,31 @@
+{% extends 'FrontOffice/baseF.html.twig' %}
+
+{% block title %}Edit Produit{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Edit Produit</h5>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title text-center mb-4">Modifier le Produit</h5>
+
+                    <div class="row justify-content-center">
+                        <div class="col-md-10">
+                            {{ include('produit/_form.html.twig', {'button_label': 'Modifier'}) }}
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{{ path('app_produit_index') }}" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
