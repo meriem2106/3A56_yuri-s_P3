@@ -20,7 +20,17 @@ class FormationRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Formation::class);
     }
-
+    public function findBySearchTerm($searchTerm)
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+    
+        if ($searchTerm) {
+            $queryBuilder->andWhere('p.nom LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+    
+        return $queryBuilder->getQuery()->getResult();
+    }
 //    /**
 //     * @return Formation[] Returns an array of Formation objects
 //     */

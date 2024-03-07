@@ -1,0 +1,121 @@
+{% extends 'FrontOffice/baseF.html.twig' %}
+
+{% block title %}Liste des Formations{% endblock %}
+
+{% block body %}
+    <style>
+        /* Styles CSS */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .table th,
+        .table td {
+            border: 1px solid #ccc;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .table th {
+            background-color: #4E73DF;
+            color: #FFFFFF;
+        }
+
+        .no-records {
+            text-align: center;
+        }
+
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input[type=text] {
+            padding: 10px;
+            margin-top: 8px;
+            font-size: 17px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 12px;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            -ms-touch-action: manipulation;
+            touch-action: manipulation;
+            cursor: pointer;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            background-image: none;
+            border: 1px solid transparent;
+            border-radius: 4px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+
+        .btn:hover,
+        .btn:focus,
+        .btn:active {
+            color: #fff;
+            background-color: #47a447;
+            border-color: #398439;
+        }
+    </style>
+
+    <div class="container">
+        <h1 class="mt-4">Liste des Formations</h1>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Sujet</th>
+                    <th>Date</th>
+                    <th>Heure</th>
+                    <th>Lieu</th>
+                    <th>Produit</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for formation in formations %}
+                    <tr>
+                        <td>{{ formation.id }}</td>
+                        <td>{{ formation.sujet }}</td>
+                        <td>{{ formation.date ? formation.date|date('Y-m-d') : '' }}</td>
+                        <td>{{ formation.heure ? formation.heure|date('H:i:s') : '' }}</td>
+                        <td>{{ formation.lieu }}</td>
+                        <td>{{ formation.produit is not null ? formation.produit.nom : 'Aucun produit associé' }}</td>
+                        <td>
+                            <a href="{{ path('app_formation_showF', {'id': formation.id}) }}" class="btn">Voir détails</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="7">Aucun enregistrement trouvé</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% for type, messages in app.session.flashbag.all() %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

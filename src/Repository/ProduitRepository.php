@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 
+
 /**
  * @extends ServiceEntityRepository<Produit>
  *
@@ -22,15 +23,16 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
     public function findBySearchTerm($searchTerm)
-{
-    $queryBuilder = $this->createQueryBuilder('p');
-
-    if ($searchTerm) {
-        $queryBuilder->andWhere('p.nom LIKE :searchTerm')
-            ->setParameter('searchTerm', '%' . $searchTerm . '%');
+    {
+        $queryBuilder = $this->createQueryBuilder('p');
+    
+        if ($searchTerm) {
+            $queryBuilder->andWhere('p.nom LIKE :searchTerm')
+                ->setParameter('searchTerm', '%' . $searchTerm . '%');
+        }
+    
+        return $queryBuilder->getQuery()->getResult();
     }
-
-    return $queryBuilder->getQuery()->getResult();
 }
 
 //    /**
@@ -57,4 +59,3 @@ class ProduitRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
-}

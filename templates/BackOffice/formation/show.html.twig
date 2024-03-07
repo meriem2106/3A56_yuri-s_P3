@@ -1,0 +1,45 @@
+{% extends 'BackOffice/baseB.html.twig' %}
+
+{% block title %}Formation{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <h1 class="mt-4">Détails de la Formation</h1>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ formation.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>Sujet</th>
+                            <td>{{ formation.sujet }}</td>
+                        </tr>
+                        <tr>
+                            <th>Date</th>
+                            <td>{{ formation.date ? formation.date|date('Y-m-d') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Heure</th>
+                            <td>{{ formation.heure ? formation.heure|date('H:i:s') : '' }}</td>
+                        </tr>
+                        <tr>
+                            <th>Lieu</th>
+                            <td>{{ formation.lieu }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="mt-3">
+            <a href="{{ path('app_formation_index') }}" class="btn btn-secondary">Retour à la liste</a>
+            <a href="{{ path('app_formation_edit', {'id': formation.id}) }}" class="btn btn-primary">Modifier</a>
+        </div>
+
+        {{ include('formation/_delete_form.html.twig') }}
+    </div>
+{% endblock %}

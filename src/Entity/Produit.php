@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
 {
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -53,7 +54,7 @@ class Produit
 
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Formation $formation = null;
-
+        
     public function getId(): ?int
     {
         return $this->id;

@@ -22,6 +22,12 @@ class Formation
     #[Assert\GreaterThan("today", message:"La date est invalide.")]
     private ?\DateTimeInterface $date = null;
 
+    #[ORM\Column(type: 'time')]
+    private ?\DateTimeInterface $heure = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $lieu = null;
+
     #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?Produit $produit = null;
 
@@ -54,6 +60,30 @@ class Formation
         return $this;
     }
 
+    public function getHeure(): ?\DateTimeInterface
+    {
+        return $this->heure;
+    }
+
+    public function setHeure(\DateTimeInterface $heure): static
+    {
+        $this->heure = $heure;
+
+        return $this;
+    }
+
+    public function getLieu(): ?string
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(string $lieu): static
+    {
+        $this->lieu = $lieu;
+
+        return $this;
+    }
+
     public function getProduit(): ?Produit
     {
         return $this->produit;
@@ -65,10 +95,9 @@ class Formation
 
         return $this;
     }
+
     public function __tostring()
     {
-        return (string)$this->getId();
-
-        
+        return (string)$this->getId();        
     }
 }

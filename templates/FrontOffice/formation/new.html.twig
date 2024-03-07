@@ -1,0 +1,44 @@
+{% extends 'FrontOffice/baseF.html.twig' %}
+
+{% block title %}Nouvelle Formation{% endblock %}
+
+{% block body %}
+<div class="container-fluid d-flex flex-column" style="height: calc(100vh - 100px);">
+    <div class="row flex-grow-1">
+        <div class="col-md-6 px-0">
+            <img src="{{ asset('https://infometiers.org/wp-content/uploads/2021/11/woman-craftmaster-at-pottery-shop-1024x683.jpg') }}" class="img-fluid h-100 w-100" alt="Image">
+        </div>
+        <div class="col-md-6">
+            <div class="container mt-5"> 
+                <h1>Créer une nouvelle Formation</h1>
+                <div class="form-container text-center">
+                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} ) }}
+                    <div class="form-group">
+                        {{ form_label(form.sujet, 'Sujet') }}
+                        {{ form_widget(form.sujet, {'attr': {'class': 'form-control', 'style': form_errors(form.sujet) ? 'border-color: #ad1328;' : ''}}) }}
+                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.sujet) }}</div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.date, 'Date') }}
+                        {{ form_widget(form.date, {'attr': {'class': 'form-control', 'style': form_errors(form.date) ? 'border-color: #ad1328;' : ''}, 'value': form.vars.value|date('d/m/Y') }) }}
+                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.date) }}</div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.heure, 'Heure') }}
+                        {{ form_widget(form.heure, {'attr': {'class': 'form-control', 'style': form_errors(form.heure) ? 'border-color: #ad1328;' : ''}}) }}
+                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.heure) }}</div>
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.lieu, 'Lieu') }}
+                        {{ form_widget(form.lieu, {'attr': {'class': 'form-control', 'style': form_errors(form.lieu) ? 'border-color: #ad1328;' : ''}}) }}
+                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.lieu) }}</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Soumettre</button>
+                    <a href="{{ path('app_formation_index') }}" class="btn btn-secondary">Retour à la liste</a>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

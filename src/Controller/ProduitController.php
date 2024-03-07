@@ -17,6 +17,7 @@ use Knp\Component\Pager\PaginatorInterface;
 #[Route('/produit')]
 class ProduitController extends AbstractController
 {
+    
     #[Route('/test', name: 'app_test')]
     public function index(ProduitRepository $produitRepository): Response
     {
@@ -30,9 +31,10 @@ class ProduitController extends AbstractController
      
     public function testPage(): Response
     {
-        return $this->render('produit/test.html.twig', [
+        return $this->render('FrontOffice/test.html.twig', [
             'controller_name' => 'ProduitController',
         ]);
+        
     }
    
     // #[Route('/', name: 'app_produit_index', methods: ['GET'])]
@@ -45,12 +47,13 @@ class ProduitController extends AbstractController
     #[Route('/', name: 'app_produit_index', methods: ['GET'])]
     public function indexe(ProduitRepository $produitRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        
         $data = $produitRepository->findAll();
         
         $produits = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            5   // Nombre d'éléments par page
+            3   // Nombre d'éléments par page
         );
     
         return $this->render('BackOffice/produit/index.html.twig', [

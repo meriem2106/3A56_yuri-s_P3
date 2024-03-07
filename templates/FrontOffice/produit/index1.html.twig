@@ -1,6 +1,7 @@
 {% extends 'FrontOffice/baseF.html.twig' %}
 
 {% block body %}
+
  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 <header id="header" class="fixed-top header-transparent">
     <div class="container d-flex align-items-center justify-content-between position-relative">
@@ -63,6 +64,25 @@
 
     </div>
   </header><!-- End Header -->
+{% for type, messages in app.session.flashbag.all() %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} fade-in-out" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<style>
+    .fade-in-out {
+        animation: fadeInOut 3s forwards;
+    }
+
+    @keyframes fadeInOut {
+        0% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+</style>
 
   <!-- ======= Hero Section ======= -->
   <section id="hero">
@@ -224,7 +244,7 @@
     </section><!-- End Cta Section -->
 
      <!-- ======= Portfolio Section ======= -->
-    <section id="portfolio" class="portfolio">
+   <section id="portfolio" class="portfolio">
     <div class="container">
 
         <div class="section-title" data-aos="fade-in" data-aos-delay="100">
@@ -244,24 +264,28 @@
             </div>
         </div>
 
-       <div class="search-container">
-    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Rechercher...">
-</div>
+        <div class="search-container">
+            <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Rechercher...">
+        </div>
+         
 
-<div class="row portfolio-container" data-aos="fade-up">
-    {% for produit in produits %}
-    <div class="col-lg-4 col-md-6 portfolio-item filter-active">
-        <h5>{{ produit.nom }}</h5> <!-- Ajout du nom du produit -->
-        <div class="portfolio-wrap">
-            <img src="{{ asset('pictures/' ~ produit.image) }}" class="img-fluid portfolio-image" alt="">
-            <div class="portfolio-links">
-                <a href="{{ asset('pictures/' ~ produit.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="fas fa-search-plus"></i></a>
-                <a href="{{ path('app_produit_showf', {'id': produit.id}) }}" title="More Details"><i class="fas fa-chevron-circle-right"></i></a>
+
+        <div class="row portfolio-container" data-aos="fade-up">
+            {% for produit in produits %}
+            <div class="col-lg-4 col-md-6 portfolio-item filter-active {% if produit.categ == 'ART DE LA TABLE' %}filter-table{% elseif produit.categ == 'VÊTEMENTS' %}filter-vet{% elseif produit.categ == 'MAISON & DÉCORATION' %}filter-deco{% elseif produit.categ == 'BIJOUX & ACCESSOIRES' %}filter-bijou{% endif %}">
+                <h5>{{ produit.nom }}</h5> <!-- Ajout du nom du produit -->
+                
+                <div class="portfolio-wrap">
+                    <img src="{{ asset('pictures/' ~ produit.image) }}" class="img-fluid portfolio-image" alt="">
+                    <div class="portfolio-links">
+                        <a href="{{ asset('pictures/' ~ produit.image) }}" data-gallery="portfolioGallery" class="portfolio-lightbox" title="Web 3"><i class="fas fa-search-plus"></i></a>
+                        <a href="{{ path('app_produit_showf', {'id': produit.id}) }}" title="More Details"><i class="fas fa-chevron-circle-right"></i></a>
+                    </div>
+                </div>
             </div>
+            {% endfor %}
         </div>
     </div>
-    {% endfor %}
-</div>
 
 
 <script>
@@ -287,10 +311,30 @@
             }
         }
     }
+
+    var portfolioFilters = document.querySelectorAll('#portfolio-flters li');
+    var portfolioItems = document.querySelectorAll('.portfolio-item');
+
+    portfolioFilters.forEach(function(filter) {
+        filter.addEventListener('click', function() {
+            var selectedFilter = this.getAttribute('data-filter');
+
+            portfolioItems.forEach(function(item) {
+                if (selectedFilter == '*' || item.classList.contains(selectedFilter)) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+
+            portfolioFilters.forEach(function(filter) {
+                filter.classList.remove('filter-active');
+            });
+
+            this.classList.add('filter-active');
+        });
+    });
 </script>
-
-
-    </div>
 </section>
 
 <style>
