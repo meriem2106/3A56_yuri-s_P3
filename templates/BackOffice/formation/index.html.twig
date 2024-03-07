@@ -41,7 +41,16 @@
     </style>
 
     <h1>Liste des Formations</h1>
-    
+    <div class="input-group w-100 my-3">
+        <input id="searchInput" type="text" class="form-control bg-light border-0 small" placeholder="Chercher une Formation ..."
+               aria-label="Search" aria-describedby="basic-addon2">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="button" onclick="searchTable()">
+                <i class="fas fa-search fa-sm"></i>
+            </button>
+        </div>
+    </div>
+
     <table class="table">
         <thead>
         <tr>
@@ -76,7 +85,13 @@
 
         </tbody>
     </table>
-
+    <div class="row justify-content-between align-items-center mb-4">
+        <button onclick="window.location='{{ path('app_formation_new') }}'" class="btn btn-primary" style="margin-right: 20px;">
+            <i class="fas fa-plus"></i> Ajouter une Formation
+        </button>
+        <div class="pagination" style="display: flex; justify-content: center; align-items: center; margin-top: 20px;">
+            {{ knp_pagination_render(formations) }}
+        </div>
     {% for type, messages in app.session.flashbag.all() %}
         {% for message in messages %}
             <div class="alert alert-{{ type }}" role="alert">
@@ -84,4 +99,23 @@
             </div>
         {% endfor %}
     {% endfor %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const rows = document.querySelectorAll('tbody tr');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = searchInput.value.trim().toLowerCase();
+
+                rows.forEach(row => {
+                    const rowData = row.innerText.toLowerCase();
+                    if (rowData.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
 {% endblock %}

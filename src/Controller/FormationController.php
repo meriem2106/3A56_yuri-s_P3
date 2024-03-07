@@ -14,14 +14,31 @@ use App\Service\FileUploader;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Knp\Component\Pager\PaginatorInterface;
 
+
 #[Route('/formation')]
 class FormationController extends AbstractController
 {
     #[Route('/', name: 'app_formation_index', methods: ['GET'])]
-    public function index(FormationRepository $formationRepository): Response
+    public function index(FormationRepository $formationRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $searchQuery = $request->query->get('search');
+        $queryBuilder = $formationRepository->createQueryBuilder('f');
+    
+        if ($searchQuery) {
+            $queryBuilder->andWhere('LOWER(f.title) LIKE :search')
+                         ->setParameter('search', '%' . strtolower($searchQuery) . '%');
+        }
+    
+        $data = $queryBuilder->getQuery()->getResult();
+    
+        $formations = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            6   // Nombre d'éléments par page
+        );
+    
         return $this->render('BackOffice/formation/index.html.twig', [
-            'formations' => $formationRepository->findAll(),
+            'formations' => $formations,
         ]);
     }
     #[Route('Front/', name: 'app_formation_indexF', methods: ['GET'])]

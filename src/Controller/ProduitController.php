@@ -53,7 +53,7 @@ class ProduitController extends AbstractController
         $produits = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            3   // Nombre d'éléments par page
+            6   // Nombre d'éléments par page
         );
     
         return $this->render('BackOffice/produit/index.html.twig', [

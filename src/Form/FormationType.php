@@ -34,12 +34,7 @@ class FormationType extends AbstractType
                     new NotBlank(['message' => 'Veuillez entrer le lieu de la formation.']),
                 ],
             ])
-            ->add('produit', EntityType::class, [
-                'class' => Produit::class,
-                'choice_label' => 'id', // Display the 'nom' property of Produit entity
-                'placeholder' => 'Choose a produit', // Optional placeholder text
-                // Add more options as needed
-            ])
+           
         ;
     }
 

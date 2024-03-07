@@ -2,43 +2,133 @@
 
 {% block title %}Nouvelle Formation{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        #map { height: 400px; }
+    </style>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% endblock %}
+
 {% block body %}
-<div class="container-fluid d-flex flex-column" style="height: calc(100vh - 100px);">
-    <div class="row flex-grow-1">
-        <div class="col-md-6 px-0">
-            <img src="{{ asset('https://infometiers.org/wp-content/uploads/2021/11/woman-craftmaster-at-pottery-shop-1024x683.jpg') }}" class="img-fluid h-100 w-100" alt="Image">
+<div class="container">
+    <h1>Créer une nouvelle Formation</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <img src="{{ asset('https://infometiers.org/wp-content/uploads/2021/11/woman-craftmaster-at-pottery-shop-1024x683.jpg') }}" class="img-fluid" alt="Image">
         </div>
         <div class="col-md-6">
-            <div class="container mt-5"> 
-                <h1>Créer une nouvelle Formation</h1>
-                <div class="form-container text-center">
-                    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}} ) }}
-                    <div class="form-group">
-                        {{ form_label(form.sujet, 'Sujet') }}
-                        {{ form_widget(form.sujet, {'attr': {'class': 'form-control', 'style': form_errors(form.sujet) ? 'border-color: #ad1328;' : ''}}) }}
-                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.sujet) }}</div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.date, 'Date') }}
-                        {{ form_widget(form.date, {'attr': {'class': 'form-control', 'style': form_errors(form.date) ? 'border-color: #ad1328;' : ''}, 'value': form.vars.value|date('d/m/Y') }) }}
-                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.date) }}</div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.heure, 'Heure') }}
-                        {{ form_widget(form.heure, {'attr': {'class': 'form-control', 'style': form_errors(form.heure) ? 'border-color: #ad1328;' : ''}}) }}
-                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.heure) }}</div>
-                    </div>
-                    <div class="form-group">
-                        {{ form_label(form.lieu, 'Lieu') }}
-                        {{ form_widget(form.lieu, {'attr': {'class': 'form-control', 'style': form_errors(form.lieu) ? 'border-color: #ad1328;' : ''}}) }}
-                        <div class="text" role="alert" style="color: #ad1328;">{{ form_errors(form.lieu) }}</div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Soumettre</button>
-                    <a href="{{ path('app_formation_index') }}" class="btn btn-secondary">Retour à la liste</a>
-                    {{ form_end(form) }}
+            <form action="{{ path('app_formation_new') }}" method="post">
+                {{ form_start(form) }}
+                <div class="form-group">
+                    {{ form_label(form.sujet) }}
+                    {{ form_widget(form.sujet, {'attr': {'class': 'form-control'}}) }}
                 </div>
+                <div class="form-group">
+                    {{ form_label(form.date) }}
+                    {{ form_widget(form.date, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.heure) }}
+                    {{ form_widget(form.heure, {'attr': {'class': 'form-control'}}) }}
+                </div>
+                <div class="form-group">
+                    {{ form_label(form.lieu) }}
+                    {{ form_widget(form.lieu, {'attr': {'class': 'form-control', 'id': 'lieu', 'readonly': 'readonly'}}) }}
+                </div>
+                <button type="button" class="btn btn-primary" id="openMapBtn">Choisir un lieu</button>
+                <button type="submit" class="btn btn-success">Enregistrer</button>
+                {{ form_end(form) }}
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="mapModal" tabindex="-1" role="dialog" aria-labelledby="mapModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mapModalLabel">Choisir un lieu</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="map"></div>
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="searchInput">Rechercher un lieu :</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Entrez un lieu">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        var map;
+
+        $('#openMapBtn').click(function() {
+            if (!map) {
+                map = L.map('map').setView([48.8566, 2.3522], 13);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+
+                var marker;
+                map.on('click', function(e) {
+                    if (marker) {
+                        map.removeLayer(marker);
+                    }
+                    marker = L.marker(e.latlng).addTo(map);
+                    $('#formation_lieu').val('Chargement du nom du lieu...');
+                    $.getJSON('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + e.latlng.lat + '&lon=' + e.latlng.lng, function(data) {
+                        $('#formation_lieu').val(data.display_name);
+                    });
+                    $('#mapModal').modal('hide');
+                });
+
+                $('#searchForm').submit(function(e) {
+                    e.preventDefault();
+                    var query = $('#searchInput').val();
+                    if (query) {
+                        $.getJSON('https://nominatim.openstreetmap.org/search?format=json&q=' + query, function(data) {
+                            if (data.length > 0) {
+                                var result = data[0];
+                                var lat = result.lat;
+                                var lon = result.lon;
+                                if (marker) {
+                                    map.removeLayer(marker);
+                                }
+                                marker = L.marker([lat, lon]).addTo(map);
+                                map.setView([lat, lon], 13);
+                                $('#formation_lieu').val('Chargement du nom du lieu...');
+                                $.getJSON('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + lat + '&lon=' + lon, function(data) {
+                                    $('#formation_lieu').val(data.display_name);
+                                });
+                            } else {
+                                alert('Lieu non trouvé.');
+                            }
+                        });
+                    }
+                });
+            }
+
+            $('#mapModal').modal('show');
+        });
+    });
+</script>
 {% endblock %}

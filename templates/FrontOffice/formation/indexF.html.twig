@@ -80,7 +80,7 @@
         <table class="table">
             <thead>
                 <tr>
-                    <th>Id</th>
+    
                     <th>Sujet</th>
                     <th>Date</th>
                     <th>Heure</th>
@@ -92,7 +92,7 @@
             <tbody>
                 {% for formation in formations %}
                     <tr>
-                        <td>{{ formation.id }}</td>
+                        
                         <td>{{ formation.sujet }}</td>
                         <td>{{ formation.date ? formation.date|date('Y-m-d') : '' }}</td>
                         <td>{{ formation.heure ? formation.heure|date('H:i:s') : '' }}</td>
